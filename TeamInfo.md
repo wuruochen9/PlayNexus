@@ -19,9 +19,10 @@
 
 |   Info      |        Description     |
 | ----------- | ---------------------- |
-|  Title      |       ProjectTitle     |
+|  Title      |      PlayNeuxs: Steam Games Reviews  |
 | System URL  |      link_to_system    |
 | Video Link  |      link_to_video     |
 
 ## Project Summary
+Our project is to build an integrated platform that combines a personalized game recommendation engine, a virtual item trading marketplace, a Steam market analysis tool, and a social hub for gamers to share news, guides, and more, streamlining the gaming experience and enhancing community interaction. 
 
