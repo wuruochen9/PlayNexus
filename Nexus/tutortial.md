@@ -35,6 +35,16 @@ VALUES (1,"Minecraft","A sandbox game that allows players to build and explore v
 ```cmd
 npm install express mysql2 body-parser sequelize cors
 npm install nodemon --save-dev
+npm install axios
+npm install bootstrap
+npm install react-bootstrap
+npm install @fortawesome/react-fontawesome
+npm install @fortawesome/free-solid-svg-icons
+npm install react-router-dom
+npm install react-router-player
+npm install @mui/material @emotion/react @emotion/styled
+npm install react-material-ui-carousel
+npm install react-dropdown
 ```
 
 
@@ -143,3 +153,32 @@ npm install nodemon --save-dev
    - Access the app in your browser at `http://localhost:3000`.
 
 With these steps, you have created a basic CRUD app using React, Node.js, Express, and MySQL. You can create, read, update, and delete records from the MySQL database through the frontend interface.
+
+
+
+5. index.js
+
+```javascript
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+          <Route path="/*" element={<App />} />
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>
+);
+
+
+
+```

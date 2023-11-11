@@ -1,0 +1,78 @@
+.background {
+    background-color: rgb(117,153,179);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+.loginform {
+    background-color: white;
+    width: 400px;
+    margin: 0 auto;
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px 0px #888888;
+  }
+.loginform_1 {
+    background-color: rgb(57,85,124);
+    width: 380;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 20px;
+    padding-bottom: 15px;
+
+  }
+  
+.loginform_2 {
+    background-color: white;
+    width: 380;
+    padding: 20px;
+  }
+.loginform_3 {
+    width: 430px;
+    transform: translate(-15px, 0px);
+    background-color: transparent;
+    border-width: 0;
+  }
+.loginform_3 >img{
+  width: 100%;
+    
+
+
+  }
+.title {
+    text-align: center;
+    font-size: 24px;
+    font-family: sans-serif;
+    color: white;
+    text-transform: uppercase;
+  }
+  
+.label {
+    display: block;
+    font-size: 18px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  
+.input[type="text"], input[type="password"] {
+    width: 96%;
+    padding: 10px;
+    margin-bottom: 20px;
+    margin-right: 10px;
+    border-radius: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px 0px #888888;
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+  }
+  
+
+  a {
+    color: blue;
+    text-decoration: none;
+  }
+  
+  a:hover {
+    text-decoration: underline;
+  }

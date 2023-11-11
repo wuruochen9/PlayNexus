@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
+
 // Create a MySQL connection:
 const connection =
      mysql.createConnection({
@@ -19,28 +20,25 @@ connection.connect((err) => {
 });
 
 //Create an Express application:
-
 const app = express();
 
 //Use the required middleware:
-
 app.use(bodyParser.json());
 app.use(cors());
 
-//Set up the CRUD routes:
-
-// Create a new record
-app.post('/api/records', (req, res) => {
-  const { Name, LongDescript } = req.body;
-  const sql = 'INSERT INTO records (Name, LongDescript) VALUES (?, ?)';
-  connection.query(sql, [Name, LongDescript], (err, result) => {
+//Set up the CRUD
+// Create
+app.post('/api/v1/games', (req, res) => {
+  const { name, description } = req.body;
+  const sql = 'INSERT INTO games (GameName, DetailedDescription) VALUES (?, ?)';
+  connection.query(sql, [name, description], (err, result) => {
     if (err) throw err;
     res.send('Record created');
   });
 });
 
-// Read all records
-app.get('/api/records', (req, res) => {
+// Read all
+app.get('/api/v1/games', (req, res) => {
   const sql = 'SELECT * FROM games';
   connection.query(sql, (err, results) => {
     if (err) throw err;
@@ -48,26 +46,66 @@ app.get('/api/records', (req, res) => {
   });
 });
 
-// // Update a record
-// app.put('/api/records/:id', (req, res) => {
-//   const { name, email } = req.body;
-//   const { id } = req.params;
-//   const sql = 'UPDATE records SET name = ?, email = ? WHERE id = ?';
-//   connection.query(sql, [name, email, id], (err, result) => {
-//     if (err) throw err;
-//     res.send('Record updated');
-//   });
-// });
+// Get the recommended games
+app.get('/api/v1/recommend', (req, res) => {
+  const { name, description } = req.body;
+  const sql = "select * from (select * from games where PriceInitial>PriceFinal AND SteamRecommends>=109)AS T JOIN viewedgames ON (T.GameID=viewedgames.GameID) NATURAL JOIN Users WHERE Username='bmfzkkw' ORDER BY GameName;";
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
 
-// Delete a record
-app.delete('/api/records/:id', (req, res) => {
+// Read 1
+app.get('/api/v1/games/:id', (req, res) => {
   const { id } = req.params;
-  const sql = 'DELETE FROM games WHERE id = ?';
+  const sql = 'SELECT * FROM games WHERE GameID = ?';
+  connection.query(sql, [ id], (err, results1) => {
+    if (err) throw err;
+    res.json(results1);
+  });
+});
+
+
+
+
+
+
+// Update
+app.put('/api/v1/games/:id', (req, res) => {
+  const { name, description } = req.body;
+  const { id } = req.params;
+  const sql = 'UPDATE games SET GameName = ?, DetailedDescription = ? WHERE GameID = ?';
+  connection.query(sql, [name, description, id], (err, result) => {
+    if (err) throw err;
+    res.send('Record updated');
+  });
+});
+
+
+// Delete
+app.delete('/api/v1/games/:id', (req, res) => {
+  const { id } = req.params;
+  const sql = 'DELETE FROM games WHERE GameID = ?';
   connection.query(sql, [id], (err, result) => {
     if (err) throw err;
     res.send('Record deleted');
   });
 });
+
+
+
+
+
+// Read all users 这个是测试用的
+app.get('/api/v1/users', (req, res) => {
+  const sql = 'SELECT * FROM users';
+  connection.query(sql, (err, results) => {
+    if (err) throw err;
+    res.json(results);
+  });
+});
+
 
 //Start the server:
 const port = process.env.PORT || 5000;

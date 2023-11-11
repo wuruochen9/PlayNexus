@@ -1,92 +1,56 @@
-import React from 'react'; 
-import { useState, useEffect } from 'react'         //This imports the useState and useEffect hooks from the React library.
-import api from './api/axiosConfig';                //This assigns the export of axiosConfig.js to variable "api"
+import './App.css'; //This imports a CSS file to style the app.
+import Header from './components/header/Header';
+import api from './api/axiosConfig'; //This imports an API instance from the axiosConfig.js file in the api directory.
+import {useState, useEffect} from 'react'; //This imports the useState and useEffect hooks from the React library.
+import {Routes, Route} from 'react-router-dom';
+import Home from './components/home/Home.js';
+import Login from './components/login/Login.js';
+import Trailer from './components/trailer/Trailer';
+import Notfound from './components/notfound/Notfound';
+import Reviews from './components/reviews/Reviews';
+import Test from './components/test/test.js';
 
 function App() {
+  //This is the main component of the web app
 
-  //const [state, setSate] =  useState(initial_value)
-  //state is used to hold the values. like the variable
-  //setState is a function to set the values of state
-  const [records, setRecords] = useState([]);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
+  //Define state variables using the useState hook
+  const [games,setGames] = useState([]);
 
-  //Execute automatically when app starts
-  useEffect(() => {
-    fetchRecords();
-  }, []);
+  //Define a function called getMovies. "async" is a keyword in this code snippet. It is used to define an asynchronous function, which allows the function to use the "await" keyword to wait for promises to be resolved before continuing execution.
+  const getMovies =  async () =>{
+    try{
+      // Makes an API request to fetch a list of games and updates the games state variable with the response data.
+      
+      const response = await api.get("/api/v1/recommend");
+      // Assuming you have the local file path stored in a variable
 
-  //Define CRUD functions
-  const fetchRecords = async () => {
-    const response = await api.get('/api/records');
-    setRecords(response.data);
-    console.log(response.data);
-  };
+      setGames(response.data)
+    }
+    catch(err){
+      console.log(err);
+    }
+  }
 
-  const createRecord = async () => {
-    await api.post('/api/records', { name, description });
-    fetchRecords(); //update records to the newest when the databse is changed
-    setName('');    //empty the Name and Description
-    setDescription('');
-  };
+  // The useEffect hook is used to call the getMovies function once when the component is mounted.
+  useEffect(() => {getMovies();},[])
 
-  const updateRecord = async (id) => {
-    await api.put(`/api/records/${id}`, { name, description });
-    fetchRecords();
-    setName('');
-    setDescription('');
-  };
-
-  const deleteRecord = async (id) => {
-    await api.delete(`/api/records/${id}`);
-    fetchRecords();
-  };
-
-  //JSX for UI design
   return (
-    <div>
-      <h1>Nexus</h1>
-
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <input
-        type="Description"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <button onClick={createRecord}>Create</button>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {records.map((record) => (
-            <tr key={record.id}>
-              <td>{record.Name}</td>
-              <td>{record.LongDescript}</td>
-              <td>
-                <button onClick={() => updateRecord(record.id)}>Update</button>
-                <button onClick={() => deleteRecord(record.id)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    <div className="App">
+      <Header/>
+        <Routes>
+          <Route path="/test" element={<Test></Test>}></Route>
+          <Route path="/Trailer/:ytTrailerId" element={<Trailer/>}></Route>
+          <Route path="/" element={<Home games={games}/>}></Route>
+          <Route path="*" element={<Notfound></Notfound>}></Route>
+          <Route path="/Reviews/:GameID" element ={<Reviews />}></Route>
+          <Route path="/login" element ={<Login />}></Route>
+        </Routes>
     </div>
   );
 }
 
 export default App;
+
+
+
+
