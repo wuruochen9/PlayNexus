@@ -45,5 +45,5 @@ app.put('/api/v1/games/:id', (req, res) => {
 - 访问方式设置为 **POST**
 - 访问链接为 **http://localhost:5000/api/v1/games/1** 这里的1可以换成任意你想测的gameID
 - 在param里面，令key等于你想修改的属性值，比如EmbeddingVectors。令value等于要改成的数值，比如3.
-![image](https://github.com/cs411-alawini/fa23-cs411-team026-LADYS/assets/59141023/8487d7c5-85b0-44d6-911c-9304127740da)
+![image](https://github.com/cs411-alawini/fa23-cs411-team026-LADYS/assets/59141023/753adb4d-fd5e-40a3-910d-b0e5954880da)
 
