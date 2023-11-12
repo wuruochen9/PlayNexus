@@ -112,3 +112,63 @@ const port = process.env.PORT || 5000;
 app.listen(port, () => {
   console.log(`Server started on port ${port}`);
 });
+
+
+//用户管理系统
+app.get('/api/v1/registrationbegin', (req, res) => {
+  res.send('Welcome to the login and registration system!');
+});
+
+app.post('/api/v1/registration', (req, res) => {
+  const { username, password } = req.query;
+  const sqlCheckUsername = 'SELECT * FROM users WHERE Username = ?';
+  const sqlInsertUser = 'INSERT INTO users (UserID, Username, Password) VALUES (?, ?, ?)';
+  const sqlCountUsers = 'SELECT COUNT(*) as userCount FROM users';
+
+  // Check if the username is already taken
+  connection.query(sqlCheckUsername, [username], (err, result) => {
+    if (err) throw err;
+
+    // If there is a result, the username is already taken
+    if (result.length > 0) {
+      res.send('Username has been used');
+    } else {
+      // Get the total count of users
+      connection.query(sqlCountUsers, (err, countResult) => {
+        if (err) throw err;
+
+        // Use the count to generate a new UserID and insert the new user
+        const newUserID = countResult[0].userCount + 1;
+        connection.query(sqlInsertUser, [newUserID, username, password], (err, insertResult) => {
+          if (err) throw err;
+          res.send('Registration Succeeded!');
+        });
+      });
+    }
+  });
+});
+
+//用户登录系统
+app.post('/api/v1/login', (req, res) => {
+  const { username, password } = req.query;
+  const sql = 'SELECT * FROM users WHERE Username = ? AND Password = ?';
+  const sqlCheckPassword = 'SELECT * FROM users WHERE Username = ?';
+  // Check if the user exists
+  connection.query(sql, [username,password], (err,result) =>{
+    if (err) throw err;
+
+    // case1: user login successfully
+    if (result.length > 0){
+      res.send('login successfully');
+    }else{
+    // case2: user entered wrong password
+      connection.query(sqlCheckPassword, [username], (err,result)=>{
+        if (err) throw err;
+        if (result.length > 0){
+          res.send('Entered password is wrong!');
+        }else{
+          res.send('No username found!');
+        }
+      })
+    }
+  });})
