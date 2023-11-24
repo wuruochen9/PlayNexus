@@ -16,6 +16,7 @@ import "./Header.css"
 const Header = () => {
     const [item, setItem] = useState();
     const [keywords, setKeywords] = useState("");
+    const [profile, setProfile] = useState("");
     const navigate = useNavigate();
     const options = [
         { name: 'Chocolate' },
@@ -25,20 +26,24 @@ const Header = () => {
         { name: 'Vanilla' },
       ];
 
-    const loggedin = 0;
-    // const image = "https://avatars.githubusercontent.com/u/59141023?s=96&v=4";
-    const image = "";
+    const loggedin = 1;
+    const image = "https://avatars.githubusercontent.com/u/59141023?s=96&v=4";
+    // const image = "";
     
-    const userkey = sessionStorage.getItem("userkey");
+    
     const getUser =  async () =>{
       try{
         // Makes an API request to fetch a list of games and updates the games state variable with the response data.
-        
-        const response = get('/user', {
+        const userkey = sessionStorage.getItem("userkey");
+        const response = await api.get('/user', {
           headers: {
             Authorization: `Bearer ${userkey}`,
           },
         });
+        if("UserID" in response.data[0]){
+          debugger
+          setProfile(response.data[0]);
+        }
         debugger
       }
       catch(err){
@@ -46,16 +51,12 @@ const Header = () => {
       }
     }
 
-
-
-    debugger
     // Function Definition
     function gotoLogin(){ navigate(`/login`);}
     function searchInput(event){
         if (event.key === 'Enter') {
             navigate(`/search/${keywords}`);
             console.log(keywords);
-            debugger
         }
     }
     
@@ -98,16 +99,16 @@ const Header = () => {
                     navbarScroll>
                 </Nav>
                 <NavLink className ="nav-link home" to="/" style={{"color":'lightgrey'}}>Home</NavLink>
-                {loggedin?  <div/> :
+                {( profile["UserID"])?  <div/> :
                 <div className="login-button-container">
                     <Button className="mx-2" onClick={() => gotoLogin()} style={{ backgroundColor: "black", color: "white", border: "none" }}> Login </Button>
                 </div>
                 }   
             </Navbar.Collapse>
-            {loggedin?  
+            {( profile["Photo"]!=null)?  
                 <Dropdown>
                     <Dropdown.Toggle variant="light" id="dropdown-basic" style={{"background-color":"transparent", "border":"0px"}}>
-                    <img src={image} alt="" style={{"width":"50px","height":"50px","border-radius":"100%"}}/> 
+                    <img src={profile["Photo"]} alt="" style={{"width":"50px","height":"50px","border-radius":"100%"}}/> 
                     </Dropdown.Toggle>
             
                     <Dropdown.Menu>

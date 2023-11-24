@@ -3,7 +3,9 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 const mysql = require('mysql');
 const session = require('express-session');
+const jwt = require('jsonwebtoken');
 
+const secretKey = "12dfgiodag#rg^&2@"
 // Create a MySQL connection:
 const connection =
      mysql.createConnection({
@@ -13,6 +15,7 @@ const connection =
        database: 'nexusdata'
      });
 
+var mytoken="";
 // Connect to the MySQL database:
 connection.connect((err) => {
   if (err) throw err;
@@ -147,7 +150,8 @@ app.post('/api/v1/login', (req, res) => {
     
     if (result.length > 0){      
       // case1: user login successfully
-      const token = jwt.sign({ userName}, secretKey, { expiresIn: '1min' });
+      const token = jwt.sign({ userName}, secretKey, { expiresIn: '10min' });
+      mytoken=token;
       res.json({ "key": token });
     }
     else{
@@ -172,16 +176,21 @@ app.post('/api/v1/login', (req, res) => {
 app.get('/user', (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
 
-  jwt.verify(token, secretKey, (err, decoded) => {
-    if (err) {
-      return res.status(401).json({ message: 'Unauthorized' });
-    }
+  jwt.verify(mytoken, secretKey, (err, decoded) => {
+      if (err) {
+        return res.send('Unauthorized');
+      }
 
     // 此时decoded中包含用户信息
-    const user = decoded.user;
-    res.json({ message: `Welcome, ${user}!` });
+    const userName = decoded.userName;
+    const sql = 'SELECT * FROM users WHERE Username = ?';
+    connection.query(sql, [userName], (err, results) => {
+      if (err) throw err;
+      res.json(results);
+    });
   });
 });
+
 
 
 

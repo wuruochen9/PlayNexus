@@ -2,7 +2,7 @@ import "./Login.css";
 import { useState, useEffect } from 'react'  
 import { Link, useNavigate } from "react-router-dom"  
 import api from '../../api/axiosConfig'; 
-
+import Header from "../header/Header";
 const Login = () => {
     const navigate = useNavigate();
     const [userName, setUserName] = useState("");
@@ -18,7 +18,6 @@ const Login = () => {
       else {
           try{
             const response = await api.post('/api/v1/login', { userName, userPwd });
-            debugger
             if("key" in response.data){
               sessionStorage.setItem("userkey", response.data["key"]);
               setUserName('');
@@ -39,6 +38,8 @@ const Login = () => {
     };
 
     return (
+      <div>
+      <Header/>
       <div className="background" style={{ backgroundImage: `url("https://img.freepik.com/free-vector/hand-painted-watercolor-abstract-watercolor-background_52683-66117.jpg?w=996&t=st=1700201506~exp=1700202106~hmac=584b782e34941423408c68320c1a6cc5302e221bfaa19892876307aba99a814e")` }}>
           <section className="loginform_4 cf" >
             {/* <img src={require('./3206784.jpg')} alt="logo"></img> */}
@@ -63,6 +64,7 @@ const Login = () => {
             </section>
           </section>
       </div>
+    </div>
     );
 };
 

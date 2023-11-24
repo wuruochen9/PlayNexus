@@ -6,6 +6,7 @@ import { Button } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons"
 import { Link, useNavigate } from "react-router-dom"
+import Header from "../header/Header"
 
 
 const Home = ({games}) => {
@@ -17,6 +18,7 @@ const Home = ({games}) => {
     }
     return (
         <div>
+            <Header/>
             <Carousel className="section1">
             {
                 games?.map((game) => {

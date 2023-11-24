@@ -40,7 +40,6 @@ function App() {
 
   return (
     <div className="App">
-      <Header/>
         <Routes>
           <Route path="/search/:keywords" element={<Search/>}></Route>
           <Route path="/test" element={<Test/>}></Route>

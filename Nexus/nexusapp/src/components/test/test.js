@@ -2,7 +2,7 @@ import React, { useState, useMemo, useCallback } from 'react';
 // Import the DataListInput component
 import DataListInput from 'react-datalist-input';
 import 'react-datalist-input/dist/styles.css'
-
+import "./test.css"
 // Your data source
 
 
@@ -34,9 +34,14 @@ const Test = () => {
   );
 
   return (
-    <div style={{"display":"flex"}}>
-    <DataListInput label="Select your favorite flavor" placeholder="Chocolate" items={items}  onSelect={onSelect}/>
-    <h1>123</h1>
+    <div className="a">
+      <h2>Games</h2>
+      <div  className="list">
+        <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
+        <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
+        <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
+        <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
+      </div>
     </div>
     );
 };
