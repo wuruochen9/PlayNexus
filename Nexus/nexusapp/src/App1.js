@@ -8,11 +8,7 @@ import Login from './components/login/Login.js';
 import Trailer from './components/trailer/Trailer';
 import Notfound from './components/notfound/Notfound';
 import Reviews from './components/reviews/Reviews';
-import Root from './components/root/root.js';
 import Test from './components/test/test.js';
-import Search from "./components/search/search.js";
-
-global.loginkey = '';
 
 function App() {
   //This is the main component of the web app
@@ -42,12 +38,10 @@ function App() {
     <div className="App">
       <Header/>
         <Routes>
-          <Route path="/search/:keywords" element={<Search/>}></Route>
-          <Route path="/test" element={<Test/>}></Route>
-          <Route path="/root" element={<Root/>}></Route>
+          <Route path="/test" element={<Test></Test>}></Route>
           <Route path="/Trailer/:ytTrailerId" element={<Trailer/>}></Route>
           <Route path="/" element={<Home games={games}/>}></Route>
-          <Route path="*" element={<Notfound/>}></Route>
+          <Route path="*" element={<Notfound></Notfound>}></Route>
           <Route path="/Reviews/:GameID" element ={<Reviews />}></Route>
           <Route path="/login" element ={<Login />}></Route>
         </Routes>

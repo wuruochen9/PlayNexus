@@ -17,13 +17,13 @@ const Home = ({games}) => {
     }
     return (
         <div>
-            <Carousel>
+            <Carousel className="section1">
             {
                 games?.map((game) => {
                     return(
                         <Paper key={game.GameID}>
                             {/* Each child in a list should have a unique "key" prop */}
-                            <div className="game-card-container">
+                            <div className="game-card-container" style={{"box-shadow":"rgb(0,0,0,0)"}}>
                                 <div className="game-card" style={{ backgroundImage: `url(${game.BackgroundImage})` }}>
                                     {/* game Card Background */}
                                     <div className="game-detail">
@@ -48,6 +48,15 @@ const Home = ({games}) => {
                 })
             }
             </Carousel>
+        <section className="section2">
+            <h2>Games</h2>
+            <section  className="game-list">
+                <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
+                <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
+                <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
+                <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
+            </section>
+        </section>
         </div>
     )
 }

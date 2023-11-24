@@ -1,95 +1,43 @@
-import React from 'react'; 
-import { useState, useEffect } from 'react'         //This imports the useState and useEffect hooks from the React library.
-import api from '../../api/axiosConfig';                //This assigns the export of axiosConfig.js to variable "api"
+import React, { useState, useMemo, useCallback } from 'react';
+// Import the DataListInput component
+import DataListInput from 'react-datalist-input';
+import 'react-datalist-input/dist/styles.css'
+
+// Your data source
+
+
 const Test = () => {
+    const options = [
+        { name: 'Chocolate' },
+        { name: 'Coconut' },
+        { name: 'Mint' },
+        { name: 'Strawberry' },
+        { name: 'Vanilla' },
+      ];
+  const [item, setItem] = useState(); // The selected item will be stored in this state.
 
-  //const [state, setSate] =  useState(initial_value)
-  //state is used to hold the values. like the variable
-  //setState is a function to set the values of state
-  const [games, setRecords] = useState([]);
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
 
-  //Execute automatically when app starts
-  useEffect(() => {
-    fetchRecords();
+  //The onSelect callback function is called if the user selects one option out of the dropdown menu.
+  const onSelect = useCallback((selectedItem) => {
+    console.log('selectedItem', selectedItem);
+    setItem(selectedItem);
   }, []);
 
-  //Define CRUD functions
-  const fetchRecords = async () => {
-    const response = await api.get('/api/v1/games');
-    setRecords(response.data);
-    console.log(response.data);
-    // response.data[0]["GameID"]
-  };
-
-  const createRecord = async () => {
-    await api.post('/api/v1/games', { name, description });
-    fetchRecords(); //update games to the newest when the databse is changed
-    setName('');    //empty the Name and Description
-    setDescription('');
-  };
-
-  const updateRecord = async (id) => {
-    await api.put(`/api/v1/games/${id}`, { name, description });
-    fetchRecords();
-    setName('');
-    setDescription('');
-  };
-
-  const deleteRecord = async (id) => {
-    await api.delete(`/api/v1/games/${id}`);
-    fetchRecords();
-  };
-
-  //JSX for UI design 兼容HTML
-  return (
-    <div>
-      <h1 className='hello'>Nexus</h1>
-
-      <input
-        type="text"
-        placeholder="Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-
-      <input
-        type="Description"
-        placeholder="Description"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-      />
-
-      <button onClick={createRecord}>Create</button>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {games.map((record) => (
-            <tr key={record.id}>
-              <td>{record.GameName}</td>
-              <td>{record.DetailedDescription}</td>
-              <td>
-                <button onClick={() => updateRecord(record.GameID)}>Update</button>
-                <button onClick={() => deleteRecord(record.GameID)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+  // dropdown menu
+  const items = useMemo(
+    () =>
+      options.map((option) => ({
+        id: option.name,
+        value: option.name,
+      })),
+    [],
   );
-}
 
+  return (
+    <div style={{"display":"flex"}}>
+    <DataListInput label="Select your favorite flavor" placeholder="Chocolate" items={items}  onSelect={onSelect}/>
+    <h1>123</h1>
+    </div>
+    );
+};
 export default Test;
-
-
-
