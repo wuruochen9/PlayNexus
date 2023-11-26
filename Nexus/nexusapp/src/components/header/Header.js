@@ -120,7 +120,7 @@ const Header = () => {
                     <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1" style={{"text-decoration":"none"}}>Profile</Dropdown.Item>
                     <Dropdown.Item href="/history" style={{"text-decoration":"none"}}>History</Dropdown.Item>
-                    <Dropdown.Item href="#/action-3" style={{"text-decoration":"none"}}>Posts</Dropdown.Item>
+                    <Dropdown.Item href="/post" style={{"text-decoration":"none"}}>Posts</Dropdown.Item>
                     <Dropdown.Item href="#/action-7" style={{"text-decoration":"none"}}>Upgrade</Dropdown.Item>
                     <Dropdown.Item href="/login" style={{"text-decoration":"none"}}>Logout</Dropdown.Item>
                     </Dropdown.Menu>

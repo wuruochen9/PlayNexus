@@ -13,7 +13,7 @@ import Test from './components/test/test.js';
 import Search from "./components/search/search.js";
 import Signup from "./components/signup/signup.js";
 import History from "./components/history/history.js";
-
+import Post from "./components/post/Post.js";
 global.loginkey = '';
 
 function App() {
@@ -56,6 +56,7 @@ function App() {
           <Route path="/login" element ={<Login />}></Route>
           <Route path="/signup" element={<Signup/>}></Route>
           <Route path="/history" element={<History/>}></Route>
+          <Route path="/post" element ={<Post/>}></Route>
         </Routes>
     </div>
   );
