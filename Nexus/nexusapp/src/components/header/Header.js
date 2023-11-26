@@ -78,15 +78,7 @@ const Header = () => {
     
     function onSelectItem(event) {
       console.log(`Selected item: ${event.target.value}`);
-      debugger
-      // Perform other operations here
     }
-    // const onSelectItem = useCallback((selectedItem) => {   // The onSelect callback function is called if the user selects one option out of the menu
-    //   debugger
-    //   console.log('selectedItem', selectedItem);
-    //   debugger
-    // }, []);
-
 
     useEffect(() => {getUser();},[])
 

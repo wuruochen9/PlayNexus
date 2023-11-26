@@ -203,14 +203,23 @@ app.get('/user', (req, res) => {
 
 // get games reviewed by a specific user
 app.get('/api/v1/usergame', (req, res) => {
-  const { id } = req.body;
-  const sql = 'SELECT * FROM games natural join viewedgames natural join users WHERE UserID =1 ORDER BY Timestamp DESC LIMIT 10';
-  connection.query(sql,  (err, results1) => {
+  const token = req.headers.authorization.split(' ')[1];
+  jwt.verify(token, secretKey, (err, decoded) => {
+    if (err) {
+      return res.send(null);
+    }
+
+  // 此时decoded中包含用户信息
+  const userName = decoded.userName;
+  const sql = 'SELECT * FROM games natural join viewedgames natural join users WHERE UserName =? ORDER BY Timestamp DESC LIMIT 10';
+  connection.query(sql, [userName], (err, results1) => {
   if (err) throw err;
     res.json(results1);
   });
+
 });
-//get popular posts
+});
+
 
 
 // 这个是测试用的
