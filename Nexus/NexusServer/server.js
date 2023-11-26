@@ -101,40 +101,39 @@ app.delete('/api/v1/games/:id', (req, res) => {
 
 
 //用户管理系统
+var userGenders=-1
+app.post('/api/v1/signup', (req, res) => {
+  const { userName, userPwd,userEmail, userGender,userAge,userLanguage} = req.body;
+  if (userGender=="male"){
+    userGenders=0;
+  }
+  else if (userGender=="female"){
+    userGenders=1;
+  }
+  else{
+    userGenders=2;
+  }
+  const sql = 'SELECT * FROM users WHERE Username = ?';
 
-// app.get('/api/v1/registrationbegin', (req, res) => {
-//   res.send('Welcome to the login and registration system!');
-// });
+  // Check if the user exists
+  connection.query(sql, [userName], (err,result) =>{
+    if (err) throw err;
+    if (result.length > 0){      
+      // case1: repeated username
+      res.send('The user name is already in use');
+    }
+    else{
+      // case2: username can be used
+      const sql = 'INSERT INTO users (Username, Password,Email,Gender,Age,UserLanguage) VALUES (?, ?,?,?,?,?)';
+      connection.query(sql, [userName, userPwd,userEmail, userGenders,userAge,userLanguage], (err, result) => {
+        if (err) throw err;
+        res.send('Record created');
+      })
+    }
 
-// app.post('/api/v1/register', (req, res) => {
-//   const { username, password } = req.query;
+});
+})
 
-//   const sqlCheckUsername = 'SELECT * FROM users WHERE Username = ?';
-//   const sqlInsertUser = 'INSERT INTO users (UserID, Username, Password) VALUES (?, ?, ?)';
-//   const sqlCountUsers = 'SELECT COUNT(*) as userCount FROM users';
-
-//   // Check if the username is already taken
-//   connection.query(sqlCheckUsername, [username], (err, result) => {
-//     if (err) throw err;
-
-//     // If there is a result, the username is already taken
-//     if (result.length > 0) {
-//       res.send('Username has been used');
-//     } else {
-//       // Get the total count of users
-//       connection.query(sqlCountUsers, (err, countResult) => {
-//         if (err) throw err;
-
-//         // Use the count to generate a new UserID and insert the new user
-//         const newUserID = countResult[0].userCount + 1;
-//         connection.query(sqlInsertUser, [newUserID, username, password], (err, insertResult) => {
-//           if (err) throw err;
-//           res.send('Registration Succeeded!');
-//         });
-//       });
-//     }
-//   });
-// });
 
 
 //用户登录系统
@@ -159,11 +158,10 @@ app.post('/api/v1/login', (req, res) => {
       connection.query(sqlCheckPassword, [userName], (err,result)=>{
         if (err) throw err;
         if (result.length > 0){
-          res.send('Entered password is wrong!');
+          res.json({ "msg": 'Entered password is wrong!'});
         }else{
-          res.send('No username found!');
+          res.json({ "msg": 'No username found!'});
         }
-        req.session.loggedIn = false;
       })
     }
   });
@@ -173,10 +171,22 @@ app.post('/api/v1/login', (req, res) => {
 
 //用户查询系统
 // 验证JWT并提取用户信息
+app.get('/checklogin', (req, res) => {
+  const token = req.headers.authorization.split(' ')[1];
+
+  jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.json({"loggedin":0});
+      }
+      return res.json({"loggedin":1});
+    });
+  });
+
+
 app.get('/user', (req, res) => {
   const token = req.headers.authorization.split(' ')[1];
 
-  jwt.verify(mytoken, secretKey, (err, decoded) => {
+  jwt.verify(token, secretKey, (err, decoded) => {
       if (err) {
         return res.send('Unauthorized');
       }
@@ -191,7 +201,16 @@ app.get('/user', (req, res) => {
   });
 });
 
-
+// get games reviewed by a specific user
+app.get('/api/v1/usergame', (req, res) => {
+  const { id } = req.body;
+  const sql = 'SELECT * FROM games natural join viewedgames natural join users WHERE UserID =1 ORDER BY Timestamp DESC LIMIT 10';
+  connection.query(sql,  (err, results1) => {
+  if (err) throw err;
+    res.json(results1);
+  });
+});
+//get popular posts
 
 
 // 这个是测试用的

@@ -11,11 +11,16 @@ import Reviews from './components/reviews/Reviews';
 import Root from './components/root/root.js';
 import Test from './components/test/test.js';
 import Search from "./components/search/search.js";
+import Signup from "./components/signup/signup.js";
+import History from "./components/history/history.js";
 
 global.loginkey = '';
 
 function App() {
   //This is the main component of the web app
+
+  // Initialize the login token
+  sessionStorage.setItem("userkey", "");
 
   //Define state variables using the useState hook
   const [games,setGames] = useState([]);
@@ -49,6 +54,8 @@ function App() {
           <Route path="*" element={<Notfound/>}></Route>
           <Route path="/Reviews/:GameID" element ={<Reviews />}></Route>
           <Route path="/login" element ={<Login />}></Route>
+          <Route path="/signup" element={<Signup/>}></Route>
+          <Route path="/history" element={<History/>}></Route>
         </Routes>
     </div>
   );

@@ -14,9 +14,9 @@ import 'react-datalist-input/dist/styles.css'
 import "./Header.css"
 
 const Header = () => {
-    const [item, setItem] = useState();
     const [keywords, setKeywords] = useState("");
     const [profile, setProfile] = useState("");
+    const [loggedIn, setLoggedIn]=useState(0);
     const navigate = useNavigate();
     const options = [
         { name: 'Chocolate' },
@@ -24,27 +24,26 @@ const Header = () => {
         { name: 'Mint' },
         { name: 'Strawberry' },
         { name: 'Vanilla' },
-      ];
-
-    const loggedin = 1;
-    const image = "https://avatars.githubusercontent.com/u/59141023?s=96&v=4";
-    // const image = "";
-    
+      ];   
     
     const getUser =  async () =>{
       try{
         // Makes an API request to fetch a list of games and updates the games state variable with the response data.
-        const userkey = sessionStorage.getItem("userkey");
-        const response = await api.get('/user', {
+        const userkey = localStorage.getItem("userkey");
+        const response0 = await api.get('/checklogin', {
           headers: {
             Authorization: `Bearer ${userkey}`,
           },
         });
-        if("UserID" in response.data[0]){
-          debugger
-          setProfile(response.data[0]);
+        setLoggedIn(response0.data["loggedin"]);
+        if(response0.data["loggedin"]){
+            const response1 = await api.get('/user', {
+              headers: {
+                Authorization: `Bearer ${userkey}`,
+              },
+            });
+            setProfile(response1.data[0]);
         }
-        debugger
       }
       catch(err){
         console.log(err);
@@ -53,6 +52,7 @@ const Header = () => {
 
     // Function Definition
     function gotoLogin(){ navigate(`/login`);}
+
     function searchInput(event){
         if (event.key === 'Enter') {
             navigate(`/search/${keywords}`);
@@ -60,15 +60,14 @@ const Header = () => {
         }
     }
     
-    // The onSelect callback function is called if the user selects one option out of the dropdown menu.
-    const onSelect = useCallback((selectedItem) => {
+    const onSelectHistory = useCallback((selectedItem) => {   // The onSelect callback function is called if the user selects one option out of the search history.
+      debugger
       console.log('selectedItem', selectedItem);
-      setItem(selectedItem);
+      setKeywords(selectedItem.value)
+      debugger
     }, []);
   
-
-    // Dropdown menu
-    const items = useMemo(
+    const searchHistory = useMemo(
       () =>
         options.map((option) => ({
           id: option.name,
@@ -77,8 +76,19 @@ const Header = () => {
       [],
     );
     
-    useEffect(() => {getUser();},[])
+    function onSelectItem(event) {
+      console.log(`Selected item: ${event.target.value}`);
+      debugger
+      // Perform other operations here
+    }
+    // const onSelectItem = useCallback((selectedItem) => {   // The onSelect callback function is called if the user selects one option out of the menu
+    //   debugger
+    //   console.log('selectedItem', selectedItem);
+    //   debugger
+    // }, []);
 
+
+    useEffect(() => {getUser();},[])
 
     return (
     <Navbar bg="black" variant="dark" expand="lg">
@@ -88,7 +98,7 @@ const Header = () => {
                 <img src={"https://raw.githubusercontent.com/fan19-hub/fa23-cs411-team026-LADYS/main/icon.png"} alt="PlayNexus" style={{ height: '60px', marginRight: '5px' }} />
             </Navbar.Brand>
 
-            <DataListInput className="search-bar" placeholder="Search games!" items={items}  onSelect={onSelect} onKeyDown={searchInput} onChange={(e) => setKeywords(e.target.value)} />
+            <DataListInput className="search-bar" placeholder="Search games!" items={searchHistory}  onSelect={onSelectHistory} onKeyDown={searchInput} onChange={(e) => setKeywords(e.target.value)} />
 
 
             <Navbar.Toggle aria-controls="navbarScroll" />
@@ -99,24 +109,28 @@ const Header = () => {
                     navbarScroll>
                 </Nav>
                 <NavLink className ="nav-link home" to="/" style={{"color":'lightgrey'}}>Home</NavLink>
-                {( profile["UserID"])?  <div/> :
+                {(loggedIn)?  <div/> :
                 <div className="login-button-container">
                     <Button className="mx-2" onClick={() => gotoLogin()} style={{ backgroundColor: "black", color: "white", border: "none" }}> Login </Button>
                 </div>
                 }   
             </Navbar.Collapse>
-            {( profile["Photo"]!=null)?  
-                <Dropdown>
+            {loggedIn?
+                <Dropdown onChange={onSelectItem}>
                     <Dropdown.Toggle variant="light" id="dropdown-basic" style={{"background-color":"transparent", "border":"0px"}}>
-                    <img src={profile["Photo"]} alt="" style={{"width":"50px","height":"50px","border-radius":"100%"}}/> 
+                    {( profile["Photo"]!=null)? 
+                      <img src={profile["Photo"]} alt="" style={{"width":"50px","height":"50px","border-radius":"100%"}}/> 
+                    :
+                      <FontAwesomeIcon className="fa-2x mx-2" icon={faUserCircle} color="white" style={{"width":"50px","height":"50px"}} />
+                    }
                     </Dropdown.Toggle>
             
                     <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1" style={{"text-decoration":"none"}}>Profile</Dropdown.Item>
-                    <Dropdown.Item href="#/action-2" style={{"text-decoration":"none"}}>History</Dropdown.Item>
+                    <Dropdown.Item href="/history" style={{"text-decoration":"none"}}>History</Dropdown.Item>
                     <Dropdown.Item href="#/action-3" style={{"text-decoration":"none"}}>Posts</Dropdown.Item>
                     <Dropdown.Item href="#/action-7" style={{"text-decoration":"none"}}>Upgrade</Dropdown.Item>
-                    <Dropdown.Item href="#/action-8" style={{"text-decoration":"none"}}>Logout</Dropdown.Item>
+                    <Dropdown.Item href="/login" style={{"text-decoration":"none"}}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             : 

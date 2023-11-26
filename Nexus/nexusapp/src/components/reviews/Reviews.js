@@ -4,6 +4,7 @@ import api from "../../api/axiosConfig"
 import React from 'react'
 import { Container, Col, Row } from 'react-bootstrap';
 import ReviewForm from './ReviewForm';
+import Header from "../header/Header.js";
 
 const Reviews = () => {
     //Use hooks
@@ -46,6 +47,8 @@ const Reviews = () => {
     useEffect(() => {getGame(GameID);},[])
 
     return (
+        <div>
+        <Header/>
         <Container>
             <Row>
                 <Col><h3>Reviews</h3></Col>
@@ -93,6 +96,7 @@ const Reviews = () => {
                 </Col>
             </Row>        
         </Container>
+    </div>
     )
 }
 
