@@ -10,7 +10,7 @@
 .board {
   background:rgba(255, 255, 255);
   width: 50vw;
-  height: 500px;
+  height: 450px;
   margin: 0 auto;
   border-radius: 20px;
   box-shadow: 0px 0px 10px 0px #888888;
@@ -44,12 +44,12 @@
 }
 
 
-.title {
+.signintitle {
   text-align: left;
-  font-size: 24px;
+  font-size: 30px;
   font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', 'Fira Sans', Ubuntu, Oxygen, 'Oxygen Sans', Cantarell, 'Droid Sans', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Lucida Grande', Helvetica, Arial, sans-serif;
   color: black;
-  margin-bottom: 50px;
+  margin-bottom: 40px;
 }
 
 

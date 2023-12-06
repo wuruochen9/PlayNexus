@@ -1,7 +1,7 @@
 /* .homebody{
     background-color: rgba(0,0,0,0.9)
 } */
-.section1{
+.homesection1{
     border: 0px;
     margin-top:30px;
 }
@@ -79,31 +79,34 @@
 } */
 
 
-.section2{
+.homesection2{
     /* display: flex; */
     margin-top:20px;
     /* align-items: center;
     justify-content: center; */
     
 }
-.section2>h2{
+.homesection2>h2{
     text-align:left;
     margin-left:10px;
     font: 'Roboto',Helvetica,Sans-Serif;
     font-size: 1.5rem;
 }
 
-.game-list{
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: visible;
+.recgame-list{
+    overflow-x: scroll;
     width: 90vw;
     height: auto;
-    justify-content: center;
-    align-items: center;
     transform: translate(5vw,0vh);
 }
-.game-list>img{
-    max-width: 20%;
-    margin: 2%;
+/* .recgame{ */
+    /* max-width: 5vw; */
+/* } */
+
+.recgame_img{
+    max-width: 85%;
+}
+
+.recgame_title{
+    padding: 10px;
 }

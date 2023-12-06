@@ -1,25 +1,55 @@
 import "./Home.css"
 import Carousel from "react-material-ui-carousel"
 import {Paper} from "@mui/material"
-import React from 'react'
-import { Button } from "react-bootstrap"
+import React, { useEffect, useState } from 'react'
+import { Button, Row,Col } from "react-bootstrap"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { faCirclePlay } from "@fortawesome/free-solid-svg-icons"
 import { Link, useNavigate } from "react-router-dom"
+import api from '../../api/axiosConfig'; 
 import Header from "../header/Header"
 
 
 const Home = ({games}) => {
   
     const navigate = useNavigate();
+    const [loggedIn, setLoggedIn]=useState(0);
+    const [personalRecommends, setPersonalRecommends]=useState([]);
+    const get_recommends =  async () =>{
+        try{
+          // Makes an API request to fetch a list of games and updates the games state variable with the response data.
+          const userkey = localStorage.getItem("userkey");
+          const response0 = await api.get('/checklogin', {
+            headers: {
+              Authorization: `Bearer ${userkey}`,
+            },
+          });
+          setLoggedIn(response0.data["loggedin"]);
+
+          if(response0.data["loggedin"]){
+              const response1 = await api.get('/api/v1/personalrecommend', {
+                headers: {
+                  Authorization: `Bearer ${userkey}`,
+                },
+              });
+              setPersonalRecommends(response1.data);
+          }
+        }
+        catch(err){
+          console.log(err);
+        }
+    }
+
     function gotoReviews(gameId)
     {
         navigate(`/Reviews/${gameId}`);
     }
+
+    useEffect(() => {get_recommends();},[])
     return (
         <div>
             <Header/>
-            <Carousel className="section1">
+            <Carousel className="homesection1">
             {
                 games?.map((game) => {
                     return(
@@ -50,16 +80,34 @@ const Home = ({games}) => {
                 })
             }
             </Carousel>
-        <section className="section2">
-            <h2>Games</h2>
-            <section  className="game-list">
-                <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
-                <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
-                <img src="http://cdn.akamai.steamstatic.com/steam/apps/38740/header.jpg" alt="game1"/>
-                <img src="http://cdn.akamai.steamstatic.com/steam/apps/15700/header.jpg?t=1461320042" alt="game1"/>
-            </section>
+
+        {loggedIn?
+        <section className="homesection2">
+            <h2 style={{"padding-bottom":"10px"}}>Games On Sale For You!</h2>
+            <Row className="recgame-list">
+                {personalRecommends?.map((game) => (
+                    <Col className="recgame">
+                        <Row>
+                        <a className="recgame_a" href={`/Reviews/${game.GameID}`}>
+                            <img className="recgame_img" src={game.PosterImage} alt="No Recommendation For Now"/>
+                        </a>
+                        </Row>
+                        <Row>
+                            <a style={{"text-decoration":"none","color":"black"}} href={`/Reviews/${game.GameID}`}>
+                            <h5 className="recgame_title">{game.GameName}</h5>
+                            </a>
+                        </Row>
+
+                    </Col>
+                ))}
+            </Row>
         </section>
+        :
+        <div/>
+        }
+
         </div>
+
     )
 }
 

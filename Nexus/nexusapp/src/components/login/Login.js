@@ -22,7 +22,8 @@ const Login = () => {
       } 
       else {
           try{
-            const response = await api.post('/api/v1/login', { userName, userPwd });
+            debugger
+            const response = await api.post('/api/v1/login', { "userName":userName, userPwd });
             if("key" in response.data){
               localStorage.setItem("userkey", response.data["key"]);
               setUserName('');
@@ -54,7 +55,7 @@ const Login = () => {
             <img src="https://img.freepik.com/premium-photo/cyberpunk-gaming-controller-gamepad-joystick-illustration_691560-5812.jpg?w=740" className="round1" />
           
             <section className="loginform">
-                <h2 className="title">Sign In </h2>
+                <h2 className="signintitle">Sign In </h2>
 
             
                 <section className="loginform_2">

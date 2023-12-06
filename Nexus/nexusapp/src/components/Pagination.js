@@ -3,7 +3,7 @@ import React, { useState } from "react";
 function Pagination({ itemsPerPage, data, onPageChange }) {
 //   debugger
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = Math.ceil(50 / itemsPerPage);
+  const totalPages = Math.ceil(100 / itemsPerPage);
 
   function handleClick(pageNumber) {
     setCurrentPage(pageNumber);

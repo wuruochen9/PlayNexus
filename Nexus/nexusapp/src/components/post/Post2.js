@@ -5,17 +5,16 @@ import LikeButton from '../LikeButton';
 import api from "../../api/axiosConfig"
 import React from 'react'
 import Header from "../header/Header.js";
-const Post = () => {
+const Post2 = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
     const [recpost,setpost] = useState([]);
     const [likes, setLikes] = useState(0);
-
     const getPost =  async () =>{
       try{
         // Makes an API request to fetch a list of games and updates the games state variable with the response data.
         // debugger
-        const response = await api.get('/api/v1/post');
+        const response = await api.get('/api/v1/post2');
         // debugger
         setpost(response.data);
         // usergame=response.data;
@@ -51,6 +50,6 @@ const Post = () => {
       </div>
     );
 };
-export default Post
+export default Post2
 
 

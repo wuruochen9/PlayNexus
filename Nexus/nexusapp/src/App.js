@@ -14,6 +14,9 @@ import Search from "./components/search/search.js";
 import Signup from "./components/signup/signup.js";
 import History from "./components/history/history.js";
 import Post from "./components/post/Post.js";
+import Post2 from "./components/post/Post2.js";
+import Mepost from "./components/post/Mepost.js";
+import Postmytotal from "./components/post/Postmytotal.js";
 global.loginkey = '';
 
 function App() {
@@ -46,7 +49,7 @@ function App() {
   return (
     <div className="App">
         <Routes>
-          <Route path="/search/:keywords" element={<Search/>}></Route>
+          <Route path="/search/:initialkeywords" element={<Search/>}></Route>
           <Route path="/test" element={<Test/>}></Route>
           <Route path="/root" element={<Root/>}></Route>
           <Route path="/Trailer/:ytTrailerId" element={<Trailer/>}></Route>
@@ -56,7 +59,11 @@ function App() {
           <Route path="/login" element ={<Login />}></Route>
           <Route path="/signup" element={<Signup/>}></Route>
           <Route path="/history" element={<History/>}></Route>
-          <Route path="/post" element ={<Post/>}></Route>
+          <Route path="/popular_post" element ={<Post/>}></Route>
+          <Route path="/latest_post" element ={<Post2/>}></Route>
+          <Route path="/write_a_post" element ={<Mepost/>}></Route>
+          <Route path="/my_total_post" element ={<Postmytotal/>}></Route>
+
         </Routes>
     </div>
   );

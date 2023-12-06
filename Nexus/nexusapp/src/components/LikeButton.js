@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-
+import api from "../api/axiosConfig"
 const LikeButton = ({ postId, initialLikes }) => {
   const [likes, setLikes] = useState(initialLikes);
 
-  const handleLikeClick = () => {
+  const handleLikeClick = async ()  => {
     setLikes(likes + 1);
+    var numlike=(likes+1);
+    const response = await api.post('/api/v1/savelike', { postId, numlike});
   };
 
   return (

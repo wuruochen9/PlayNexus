@@ -19,11 +19,12 @@ const Header = () => {
     const [loggedIn, setLoggedIn]=useState(0);
     const navigate = useNavigate();
     const options = [
-        { name: 'Chocolate' },
-        { name: 'Coconut' },
-        { name: 'Mint' },
-        { name: 'Strawberry' },
-        { name: 'Vanilla' },
+        { name: 'MineCraft' },
+        { name: 'Star War' },
+        { name: 'GTA' },
+        { name: 'One Piece' },
+        { name: 'It Takes Two' },
+        { name: 'OverCooked' }
       ];   
     
     const getUser =  async () =>{
@@ -52,7 +53,6 @@ const Header = () => {
 
     // Function Definition
     function gotoLogin(){ navigate(`/login`);}
-
     function searchInput(event){
         if (event.key === 'Enter') {
             navigate(`/search/${keywords}`);
@@ -79,7 +79,6 @@ const Header = () => {
     function onSelectItem(event) {
       console.log(`Selected item: ${event.target.value}`);
     }
-
     useEffect(() => {getUser();},[])
 
     return (
@@ -90,8 +89,8 @@ const Header = () => {
                 <img src={"https://raw.githubusercontent.com/fan19-hub/fa23-cs411-team026-LADYS/main/icon.png"} alt="PlayNexus" style={{ height: '60px', marginRight: '5px' }} />
             </Navbar.Brand>
 
-            <DataListInput className="search-bar" placeholder="Search games!" items={searchHistory}  onSelect={onSelectHistory} onKeyDown={searchInput} onChange={(e) => setKeywords(e.target.value)} />
-
+             <DataListInput className="search-bar" placeholder="Search games!" items={searchHistory}  onSelect={onSelectHistory} onKeyDown={searchInput} onChange={(e) => setKeywords(e.target.value)} />
+            
 
             <Navbar.Toggle aria-controls="navbarScroll" />
             <Navbar.Collapse id="navbarScroll">
@@ -101,7 +100,13 @@ const Header = () => {
                     navbarScroll>
                 </Nav>
                 <NavLink className ="nav-link home" to="/" style={{"color":'lightgrey'}}>Home</NavLink>
-                {(loggedIn)?  <div/> :
+                <NavLink className ="nav-link home" to="/popular_post" style={{"color":'lightgrey'}}>Popular posts</NavLink>
+                <NavLink className ="nav-link home" to="/latest_post" style={{"color":'lightgrey'}}>Latest posts</NavLink>
+                {profile["active_user"]? <img src="https://p.kindpng.com/picc/s/701-7014873_transparent-vip-png-vip-icon-png-png-download.png" alt="" style={{"width":"40px","height":"40px","border-radius":"100%"}}/> 
+                :<div/>
+                }
+                {(loggedIn)?  <div/>
+                :
                 <div className="login-button-container">
                     <Button className="mx-2" onClick={() => gotoLogin()} style={{ backgroundColor: "black", color: "white", border: "none" }}> Login </Button>
                 </div>
@@ -120,16 +125,14 @@ const Header = () => {
                     <Dropdown.Menu>
                     <Dropdown.Item href="#/action-1" style={{"text-decoration":"none"}}>Profile</Dropdown.Item>
                     <Dropdown.Item href="/history" style={{"text-decoration":"none"}}>History</Dropdown.Item>
-                    <Dropdown.Item href="/post" style={{"text-decoration":"none"}}>Posts</Dropdown.Item>
-                    <Dropdown.Item href="#/action-7" style={{"text-decoration":"none"}}>Upgrade</Dropdown.Item>
+                    <Dropdown.Item href="/my_total_post" style={{"text-decoration":"none"}}>My Posts</Dropdown.Item>
+                    <Dropdown.Item href="/write_a_post" style={{"text-decoration":"none"}}>Write a Post</Dropdown.Item>
                     <Dropdown.Item href="/login" style={{"text-decoration":"none"}}>Logout</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
             : 
                 <FontAwesomeIcon className="fa-2x mx-2" icon={faUserCircle} color="white" style={{"width":"50px","height":"50px"}} />
-                
             }
-            
         </Container>
     </Navbar>
   );
