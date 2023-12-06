@@ -17,6 +17,7 @@ import Post from "./components/post/Post.js";
 import Post2 from "./components/post/Post2.js";
 import Mepost from "./components/post/Mepost.js";
 import Postmytotal from "./components/post/Postmytotal.js";
+import Profile from "./components/profile/profile.js";
 global.loginkey = '';
 
 function App() {
@@ -63,7 +64,7 @@ function App() {
           <Route path="/latest_post" element ={<Post2/>}></Route>
           <Route path="/write_a_post" element ={<Mepost/>}></Route>
           <Route path="/my_total_post" element ={<Postmytotal/>}></Route>
-
+          <Route path="/profile" element ={<Profile/>}></Route>
         </Routes>
     </div>
   );

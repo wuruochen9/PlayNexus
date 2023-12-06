@@ -34,6 +34,7 @@
 }
 .post5{
   transform: translate(0px,0px);
+  color:white
 }
 .post6{
   transform: translate(0px,0px);
@@ -51,4 +52,15 @@
 }
 .post10{
   background-color: aliceblue;
+}
+.word{
+  color:white
+}
+.bg1 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 }

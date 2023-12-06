@@ -28,7 +28,8 @@ const History = () => {
     return (
       <div>
       <Header/>
-      <div className="viewedhistory">
+      
+      <div className="viewedhistory" >
       <h2>History</h2>
       <div className="historylist" >
         

@@ -32,6 +32,7 @@ const Postmytotal = () => {
     return (
       <div>
         <Header/>
+          <h1>My posts</h1>
           {recpost?.map((item) => ( 
           <section className="postinform cf"> 
               <label className="label" htmlFor="username" >{item.Username}</label> 

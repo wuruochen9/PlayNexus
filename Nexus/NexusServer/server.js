@@ -284,7 +284,8 @@ app.get('/viewedgames/:id', (req, res) => {
  
 
 
-//update viewed games history (trigger)
+
+//update viewed games history 
 app.post('/api/v1/updateHistory', (req, res) => {
   const token = req.body.headers.Authorization.split(' ')[1];
   const GameID=req.body.GameID;
@@ -295,12 +296,24 @@ app.post('/api/v1/updateHistory', (req, res) => {
  
   // 此时decoded中包含用户信息
   const userID = decoded.UserID;
+  const sql2="SELECT * FROM viewedgames WHERE UserID=? AND GameID=?"
+  connection.query(sql2, [userID,GameID], (err,result) =>{
+    if (err) throw err;
+
+    
+    if (result.length > 0){
+      const sql = 'UPDATE viewedgames SET Timestamp = NOW() WHERE UserID=? AND GameID=?';
+      connection.query(sql, [userID,GameID], (err, result) => {
+      if (err) throw err;
+      res.send('Record updated');
+    });}
+    else{
   const sql = "INSERT INTO viewedgames (UserID, GameID, Timestamp) VALUES (?, ?, NOW());";
   connection.query(sql, [userID, GameID], (err, results1) => {
   if (err) throw err;
     res.json(results1);
+  });}
   });
-
 });
 });
 
@@ -354,8 +367,24 @@ app.get('/api/v1/postmytotal', (req, res) => {
     });
     
 });
+//get profile info
+app.get('/api/v1/profile', (req, res) => {
+  const token = req.headers.authorization.split(' ')[1];
 
+  jwt.verify(token, secretKey, (err, decoded) => {
+      if (err) {
+        return res.send('Unauthorized');
+      }
 
+  const UserID = decoded.UserID;
+  const sql = 'SELECT * FROM users WHERE UserID=?';
+  connection.query(sql,[UserID],  (err, results1) => {
+    if (err) throw err;
+      res.json(results1);
+    });
+  });
+  
+});
 //Create a new post
 app.post('/api/v1/mepost', (req, res) => {
     const token = req.body.headers.Authorization.split(' ')[1];

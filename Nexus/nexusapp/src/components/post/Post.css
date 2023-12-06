@@ -1,13 +1,12 @@
-.background {
-    background-color: rgb(117,153,179);
-    /* background-repeat: no-repeat;
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; */
-  }
-  
+
+.bg2 {
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
 .postinform {
   /* background:rgba(255,255,255, 0); */
     background-color: white;

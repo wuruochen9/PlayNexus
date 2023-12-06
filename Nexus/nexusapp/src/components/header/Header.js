@@ -123,7 +123,7 @@ const Header = () => {
                     </Dropdown.Toggle>
             
                     <Dropdown.Menu>
-                    <Dropdown.Item href="#/action-1" style={{"text-decoration":"none"}}>Profile</Dropdown.Item>
+                    <Dropdown.Item href="/profile" style={{"text-decoration":"none"}}>Profile</Dropdown.Item>
                     <Dropdown.Item href="/history" style={{"text-decoration":"none"}}>History</Dropdown.Item>
                     <Dropdown.Item href="/my_total_post" style={{"text-decoration":"none"}}>My Posts</Dropdown.Item>
                     <Dropdown.Item href="/write_a_post" style={{"text-decoration":"none"}}>Write a Post</Dropdown.Item>

@@ -25,7 +25,7 @@ const Home = ({games}) => {
             },
           });
           setLoggedIn(response0.data["loggedin"]);
-
+          debugger
           if(response0.data["loggedin"]){
               const response1 = await api.get('/api/v1/personalrecommend', {
                 headers: {

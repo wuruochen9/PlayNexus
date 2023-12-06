@@ -64,12 +64,13 @@ const Reviews = () => {
         <div>
         <Header/>
         <Container style={{"margin":"20px"}}>
+            <section style={{ backgroundImage: `url(${game?.BackgroundImage})` }}>
             <Row>
-                <Col><h1 style={{"padding-bottom":"20px"}}>Reviews</h1></Col>
+                <Col><h1 style={{"padding-bottom":"20px"}} className='word'>Reviews</h1></Col>
             </Row>
             <Row className="post">
                 <Col>
-                    <h2>{game?.GameName}</h2>
+                    <h2  className='word'>{game?.GameName}</h2>
                     <section className='poster'>
                     <img src={game?.PosterImage} alt="" />
                     </section>
@@ -91,7 +92,7 @@ const Reviews = () => {
                                 </section>
                                 </div>
                             )}
-                            {game?.PurchaseLink?(
+                            {game?.PurchaseLink[0]=="h" ?(
                                 <div>
                                     <section className="post7">
                                     <h5>Purchase Link: {game?.PurchaseLink}</h5>
@@ -99,7 +100,7 @@ const Reviews = () => {
                                 </div>
                             ):(
                                 <div>
-                                    <h5>No available purchase link</h5>
+                                    <h5 className='post7'>No available purchase link</h5>
                                 </div>
                             )}
                              </Row>
@@ -118,34 +119,34 @@ const Reviews = () => {
                 <Col>
                 {game?.PlatformWindows==1?(
                     <div>
-                        <h5>Windows</h5>
+                        <h5  className='word'>Windows</h5>
                     </div>
-                ):(<div><del><h5>Windows</h5></del></div>)}</Col>
+                ):(<div className='word'><del><h5>Windows</h5></del></div>)}</Col>
                 <Col>
                 {game?.PlatformLinux==1?(
                     <div>
-                        <h5>Linux</h5>
+                        <h5 className='word'>Linux</h5>
                     </div>
-                ):(<div><del><h5>Linux</h5></del></div>)}</Col>
+                ):(<div className='word'><del><h5>Linux</h5></del></div>)}</Col>
                 <Col>
                 {game?.PlatformMac==1?(
                     <div >
-                        <h5>Mac</h5>
+                        <h5 className='word'>Mac</h5>
                     </div>
-                ):(<div><del><h5>Mac</h5></del></div>)}</Col>
+                ):(<div className='word'><del><h5>Mac</h5></del></div>)}</Col>
             </Row>
             </Row>
                 </Col>
                 
                 <Col className='post2'>
                     <Row>
-                        <h4>Description</h4>
-                        <text>{game?.DetailedDescription} </text>
+                        <h4 className='word'>Description</h4>
+                        <text className='word' >{game?.DetailedDescription} </text>
                     </Row>
                     <Row className='post9'>
-                        <h4>People Recommend: {game?.SteamRecommendationCount}</h4>
+                        <h4 className='word'>People Recommend: {game?.SteamRecommendationCount}</h4>
                         <section className="Reviewform2">
-                            <h5>Average rating: {avgrating? avgrating[0].avgrate: 0}</h5>
+                            <h5 className='word'>Average rating: {avgrating? avgrating[0].avgrate: 0}</h5>
                          </section>
                     </Row>
                 </Col>
@@ -155,6 +156,7 @@ const Reviews = () => {
                     <hr />
                 </Col>
             </Row>
+            </section>
             <Row>
                 <Col>
                 {
