@@ -1,4 +1,4 @@
-# fa23-cs411-team026-LADYS
+# PlayNexus
 
 ## 目录介绍
 - NexusServer 是后端代码
